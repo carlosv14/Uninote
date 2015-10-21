@@ -1,8 +1,7 @@
 package com.example.carlosvarela.uninote;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -22,12 +21,13 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
-        Parse.enableLocalDatastore(this);
+       /** Parse.enableLocalDatastore(this);
         Parse.initialize(this, "NqoiN2iCFTNLSNjyJjFEIxD3JFbYkTd9HbJm2Zvj", "reZZBayjfg5HVFJMWC7wme4RmgxbasgWuPTjBCFN");
         setContentView(R.layout.activity_main);
         ParseObject testObject = new ParseObject("TestObject");
         testObject.put("foo", "bar");
-        testObject.saveInBackground();
+        testObject.saveInBackground();**/
+
     }
 
     @Override
@@ -37,6 +37,10 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    public void Register(View view) {
+        Intent intent = new Intent(this,Register.class);
+        startActivity(intent);
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
