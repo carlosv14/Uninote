@@ -1,11 +1,15 @@
 package com.example.carlosvarela.uninote;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
@@ -17,43 +21,48 @@ public class Register extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+
     }
 
-    public int SignUp(View view){
+    public void SignUp(View view){
         EditText username = (EditText)findViewById(R.id.editText8);
         EditText password =  (EditText)findViewById(R.id.editText6);
         EditText passwordc =  (EditText)findViewById(R.id.editText7);
-        EditText email =  (EditText)findViewById(R.id.editText7);
+        EditText email =  (EditText)findViewById(R.id.editText5);
         EditText nombre =  (EditText)findViewById(R.id.editText3);
         EditText apellido =  (EditText)findViewById(R.id.editText4);
         if(password.getText().toString().equals(passwordc.getText().toString())){
 
-        CreateUser(username.getText().toString(),password.getText().toString(),email.getText().toString(),nombre.getText().toString(),apellido.getText().toString());
-        return 1;
-        }  else {
-            return  0;
+                CreateUser(username.getText().toString(),password.getText().toString(),email.getText().toString(),nombre.getText().toString(),apellido.getText().toString());
+
         }
     }
-    protected void CreateUser(String username, String password, String email, String nombre, String apellido ){
+    protected void CreateUser(String username, String password, String email, String nombre, String apellido )  {
 
-
+        Parse.enableLocalDatastore(this);
+        Parse.initialize(this, "NqoiN2iCFTNLSNjyJjFEIxD3JFbYkTd9HbJm2Zvj", "reZZBayjfg5HVFJMWC7wme4RmgxbasgWuPTjBCFN");
         ParseUser user = new ParseUser();
         user.setUsername(username);
         user.setPassword(password);
         user.setEmail(email);
-
-        user.put("nombre", nombre);
-        user.put("apellido", apellido);
-
+        user.put("nombre" , nombre);
+        user.put("apellido",apellido);
         user.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {
                 if (e == null) {
-                    // Hooray! Let them use the app now.
+                    // Show a simple Toast message upon successful registration
+                    Toast.makeText(getApplicationContext(),
+                            "Successfully Signed up, please log in.",
+                            Toast.LENGTH_LONG).show();
+
                 } else {
-                    // Sign up didn't succeed. Look at the ParseException
-                    // to figure out what went wrong
+                    Toast.makeText(getApplicationContext(),
+                            e.toString(), Toast.LENGTH_LONG)
+                            .show();
                 }
             }
         });
+
+
     }
 }

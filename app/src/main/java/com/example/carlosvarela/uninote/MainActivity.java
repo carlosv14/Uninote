@@ -20,12 +20,11 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-       /** Parse.enableLocalDatastore(this);
+      /**  Parse.enableLocalDatastore(this);
         Parse.initialize(this, "NqoiN2iCFTNLSNjyJjFEIxD3JFbYkTd9HbJm2Zvj", "reZZBayjfg5HVFJMWC7wme4RmgxbasgWuPTjBCFN");
         setContentView(R.layout.activity_main);
         ParseObject testObject = new ParseObject("TestObject");
-        testObject.put("foo", "bar");
+        testObject.put("test", "bar");
         testObject.saveInBackground();**/
 
     }
