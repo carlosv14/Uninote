@@ -1,12 +1,22 @@
 package com.example.carlosvarela.uninote;
 
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
@@ -29,7 +39,46 @@ public class Home extends ActionBarActivity {
         classes.add("Historia de Honduras");
         classes.add("Espanol");
         if(lv != null)
-            lv.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, classes));
+            lv.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, classes){
+                public View getView(int position, View convertView, ViewGroup parent) {
+
+                    // Return the GridView current item as a View
+                    View view = super.getView(position,convertView,parent);
+
+                    // Convert the view as a TextView widget
+                    TextView tv = (TextView) view;
+
+                    // set the TextView text color (GridView item color)
+                    tv.setTextColor(Color.WHITE);
+
+                    // Set the TextView text (GridView item text)
+                    tv.setText(classes.get(position));
+
+                    // Set the TextView background color
+                    tv.setBackgroundColor(Color.parseColor("#009688"));
+
+                    // Return the TextView widget as GridView item
+                    return tv;
+                }
+            });
+
+        if (lv != null) {
+            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View v,
+                                        int position, long id) {
+
+                    Intent i = new Intent(Home.this, ClassOverview.class);
+                    Bundle bundle = new Bundle();
+
+                    bundle.putString("class", classes.get(position));
+                    i.putExtras(bundle);
+                    startActivity(i);
+
+
+                }
+            });
+        }
     }
 
 
