@@ -7,9 +7,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import com.parse.LogInCallback;
 import com.parse.Parse;
+import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,13 +24,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-      /**  Parse.enableLocalDatastore(this);
+        Parse.enableLocalDatastore(this);
         Parse.initialize(this, "NqoiN2iCFTNLSNjyJjFEIxD3JFbYkTd9HbJm2Zvj", "reZZBayjfg5HVFJMWC7wme4RmgxbasgWuPTjBCFN");
+      /**
         setContentView(R.layout.activity_main);
         ParseObject testObject = new ParseObject("TestObject");
         testObject.put("test", "bar");
+
         testObject.saveInBackground();**/
+
 
     }
 
@@ -36,6 +43,23 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    public void Login(View view){
+        EditText user = (EditText)findViewById(R.id.editText2);
+        EditText passw = (EditText)findViewById(R.id.editText);
+
+        ParseUser.logInInBackground(user.getText().toString(), passw.getText().toString(), new LogInCallback() {
+            public void done(ParseUser user, ParseException e) {
+                if (user != null) {
+                    Intent intent = new Intent(MainActivity.this ,Home.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            e.toString(), Toast.LENGTH_LONG)
+                            .show();
+                }
+            }
+        });
+    }
     public void Register(View view) {
         Intent intent = new Intent(this,Register.class);
         startActivity(intent);

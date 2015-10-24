@@ -39,8 +39,6 @@ public class Register extends AppCompatActivity {
     }
     protected void CreateUser(String username, String password, String email, String nombre, String apellido )  {
 
-        Parse.enableLocalDatastore(this);
-        Parse.initialize(this, "NqoiN2iCFTNLSNjyJjFEIxD3JFbYkTd9HbJm2Zvj", "reZZBayjfg5HVFJMWC7wme4RmgxbasgWuPTjBCFN");
         ParseUser user = new ParseUser();
         user.setUsername(username);
         user.setPassword(password);
@@ -50,10 +48,9 @@ public class Register extends AppCompatActivity {
         user.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {
                 if (e == null) {
-                    // Show a simple Toast message upon successful registration
-                    Toast.makeText(getApplicationContext(),
-                            "Successfully Signed up, please log in.",
-                            Toast.LENGTH_LONG).show();
+
+                    Intent intent = new Intent(Register.this,MainActivity.class);
+                    startActivity(intent);
 
                 } else {
                     Toast.makeText(getApplicationContext(),

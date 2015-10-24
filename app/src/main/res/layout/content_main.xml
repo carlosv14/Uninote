@@ -55,6 +55,7 @@
         android:layout_height="wrap_content"
         android:text="login"
         android:id="@+id/button"
+        android:onClick="Login"
         android:layout_marginBottom="87dp"
         android:layout_alignParentBottom="true"
         android:layout_alignRight="@+id/textView6"
