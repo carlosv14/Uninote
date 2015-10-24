@@ -3,8 +3,6 @@
 
     <string name="app_name">Uninote</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_home">Home</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="title_activity_class_overview">ClassOverview</string>
-
+    <string name="user">User:</string>
+    <string name="password">Password:</string>
 </resources>
