@@ -1,5 +1,6 @@
 package com.example.carlosvarela.uninote;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -24,8 +25,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Parse.enableLocalDatastore(this);
-        Parse.initialize(this, "NqoiN2iCFTNLSNjyJjFEIxD3JFbYkTd9HbJm2Zvj", "reZZBayjfg5HVFJMWC7wme4RmgxbasgWuPTjBCFN");
+
       /**
         setContentView(R.layout.activity_main);
         ParseObject testObject = new ParseObject("TestObject");
@@ -50,8 +50,10 @@ public class MainActivity extends AppCompatActivity {
         ParseUser.logInInBackground(user.getText().toString(), passw.getText().toString(), new LogInCallback() {
             public void done(ParseUser user, ParseException e) {
                 if (user != null) {
-                    Intent intent = new Intent(MainActivity.this ,Home.class);
-                    startActivity(intent);
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("result",user.toString());
+                    setResult(Activity.RESULT_OK,returnIntent);
+                    finish();
                 } else {
                     Toast.makeText(getApplicationContext(),
                             e.toString(), Toast.LENGTH_LONG)

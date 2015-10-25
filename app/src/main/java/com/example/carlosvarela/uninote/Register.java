@@ -49,8 +49,7 @@ public class Register extends AppCompatActivity {
             public void done(ParseException e) {
                 if (e == null) {
 
-                    Intent intent = new Intent(Register.this,MainActivity.class);
-                    startActivity(intent);
+                   finish();
 
                 } else {
                     Toast.makeText(getApplicationContext(),
