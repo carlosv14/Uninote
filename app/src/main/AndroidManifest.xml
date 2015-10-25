@@ -16,6 +16,11 @@
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+        <activity
+            android:name=".Home"
+            android:label="Uninote">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,12 +28,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Home"
-            android:label="title_activity_home">
-        </activity>
-        <activity
             android:name=".ClassOverview"
-            android:label="title_activity_class_overview"
+            android:label="Uninote"
             android:theme="@style/AppTheme.NoActionBar">
     </activity>
         <activity android:name=".Register"
