@@ -28,16 +28,20 @@
         <activity
             android:name=".ClassOverview"
             android:label="Uninote"
-            android:theme="@style/AppTheme.NoActionBar">
-    </activity>
-        <activity android:name=".Register"
-            android:windowSoftInputMode="adjustResize">
-
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity
+            android:name=".Register"
+            android:windowSoftInputMode="adjustResize" >
         </activity>
         <activity
             android:name=".AddClass"
             android:label="@string/title_activity_add_class"
             android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity
+            android:name=".Settings"
+            android:label="@string/title_activity_settings" >
         </activity>
     </application>
 

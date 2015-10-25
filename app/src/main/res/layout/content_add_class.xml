@@ -58,11 +58,20 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
-    <TextClock
+    <NumberPicker
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textClock"
-        android:layout_below="@+id/editText12"
-        android:layout_centerHorizontal="true" />
+        android:id="@+id/numberPicker"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/numberPicker2"
+        android:layout_toStartOf="@+id/numberPicker2" />
+
+    <NumberPicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/numberPicker2"
+        android:layout_alignTop="@+id/numberPicker"
+        android:layout_alignRight="@+id/editText12"
+        android:layout_alignEnd="@+id/editText12" />
 
 </RelativeLayout>
