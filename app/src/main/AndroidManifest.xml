@@ -31,7 +31,8 @@
             android:label="title_activity_class_overview"
             android:theme="@style/AppTheme.NoActionBar">
     </activity>
-        <activity android:name=".Register" >
+        <activity android:name=".Register"
+            android:windowSoftInputMode="adjustResize">
         </activity>
     </application>
 
