@@ -22,7 +22,6 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.parse.Parse;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -36,8 +35,8 @@ public class Home extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        Parse.enableLocalDatastore(this);
-        Parse.initialize(this, "NqoiN2iCFTNLSNjyJjFEIxD3JFbYkTd9HbJm2Zvj", "reZZBayjfg5HVFJMWC7wme4RmgxbasgWuPTjBCFN");
+
+
         ParseUser currentUser = ParseUser.getCurrentUser();
         if (currentUser != null) {
             classes = new ArrayList<String>();
