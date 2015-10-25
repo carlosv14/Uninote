@@ -135,10 +135,8 @@ public class Home extends ActionBarActivity {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View v,
                                                 int position, long id) {
-
                             Intent i = new Intent(Home.this, ClassOverview.class);
                             Bundle bundle = new Bundle();
-
                             bundle.putString("class", classes.get(position));
                             i.putExtras(bundle);
                             startActivity(i);
