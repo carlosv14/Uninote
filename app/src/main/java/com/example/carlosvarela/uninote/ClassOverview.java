@@ -43,4 +43,16 @@ public class ClassOverview extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
+    public void onCamera(View view){
+        ImageButton clickedButton = (ImageButton)view;
+        clickedButton.setBackgroundColor(Color.parseColor("#26A69A"));
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        Fragment newFragment = new Camera();
+        fragmentTransaction.replace(R.id.fragmentContainer, newFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
 }
