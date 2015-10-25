@@ -1,5 +1,8 @@
 package com.example.carlosvarela.uninote;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -30,6 +33,14 @@ public class ClassOverview extends AppCompatActivity {
     public void onButtonClick(View view){
         ImageButton clickedButton = (ImageButton)view;
         clickedButton.setBackgroundColor(Color.parseColor("#26A69A"));
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        Fragment newFragment = new Notepad();
+
+        fragmentTransaction.replace(R.id.fragmentContainer, newFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
 }
