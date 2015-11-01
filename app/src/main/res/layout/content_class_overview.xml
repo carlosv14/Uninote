@@ -39,7 +39,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:src="@drawable/mic"
-            android:onClick="onButtonClick"
+            android:onClick="onRecord"
             android:background="#80cbc4"/>
         <ImageButton
             android:layout_width="wrap_content"

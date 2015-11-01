@@ -15,6 +15,7 @@ import android.widget.ImageButton;
 
 public class ClassOverview extends AppCompatActivity {
 
+    Fragment currentFragment = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +38,7 @@ public class ClassOverview extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         Fragment newFragment = new Notepad();
-
+        currentFragment = newFragment;
         fragmentTransaction.replace(R.id.fragmentContainer, newFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
@@ -50,9 +51,32 @@ public class ClassOverview extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         Fragment newFragment = new Camera();
+        currentFragment = newFragment;
         fragmentTransaction.replace(R.id.fragmentContainer, newFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 
+    public void onRecord(View view){
+        ImageButton clickedButton = (ImageButton)view;
+        clickedButton.setBackgroundColor(Color.parseColor("#26A69A"));
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        Fragment newFragment = new Voicenote();
+        currentFragment = newFragment;
+        fragmentTransaction.replace(R.id.fragmentContainer, newFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
+    public void recordButtonClick(View view) {
+        Voicenote voicenoteFragment = (Voicenote) currentFragment;
+        if (voicenoteFragment != null){
+            voicenoteFragment.recordButtonClick(view);
+            ImageButton mRecordButton = (ImageButton)findViewById(R.id.recordButton);
+            if(mRecordButton != null)
+                mRecordButton.setImageResource(voicenoteFragment.isRecording ? R.drawable.recordbuttonstop : R.drawable.recordbutton);
+        }
+    }
 }
