@@ -18,8 +18,9 @@
         android:hint="Materia"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:inputType="text" />
+        android:inputType="text"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -57,21 +58,5 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
-
-    <NumberPicker
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/numberPicker"
-        android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/numberPicker2"
-        android:layout_toStartOf="@+id/numberPicker2" />
-
-    <NumberPicker
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/numberPicker2"
-        android:layout_alignTop="@+id/numberPicker"
-        android:layout_alignRight="@+id/editText12"
-        android:layout_alignEnd="@+id/editText12" />
 
 </RelativeLayout>

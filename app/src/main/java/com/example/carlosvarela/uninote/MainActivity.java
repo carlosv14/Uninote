@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     public void Register(View view) {
         Intent intent = new Intent(this,Register.class);
         startActivity(intent);
