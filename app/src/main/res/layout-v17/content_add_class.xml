@@ -13,22 +13,10 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editText9"
-        android:layout_alignParentTop="true"
+        android:id="@+id/editText15"
         android:hint="Materia"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:inputType="text" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:hint="Catedrático"
-        android:ems="10"
-        android:id="@+id/editText10"
-        android:layout_below="@+id/editText9"
+        android:inputType="text"
+        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
@@ -37,11 +25,28 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editText11"
+        android:inputType="textPersonName"
+        android:hint="Catedrático"
+        android:ems="10"
+        android:id="@+id/editText16"
+        android:layout_below="@+id/editText17"
+        android:layout_marginTop="47dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText17"
+        android:inputType="number"
+        android:ems="10"
         android:hint="Sección"
-        android:layout_below="@+id/editText10"
+        android:layout_below="@+id/editText18"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_marginTop="53dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
@@ -51,11 +56,47 @@
         android:inputType="number"
         android:ems="10"
         android:hint="Unidades Valorativas"
-        android:id="@+id/editText12"
-        android:layout_below="@+id/editText11"
+        android:id="@+id/editText18"
+        android:layout_marginTop="48dp"
+        android:layout_below="@+id/editText15"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:hint="Aula"
+        android:ems="10"
+        android:id="@+id/editText19"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_above="@+id/editText15"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Aceptar"
+        android:onClick="saveClass"
+        android:id="@+id/button4"
+        android:layout_marginBottom="44dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:hint="Aula"
+        android:ems="10"
+        android:id="@+id/editText20"
+        android:layout_above="@+id/button4"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="34dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>

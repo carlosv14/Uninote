@@ -158,7 +158,7 @@ public class Home extends ActionBarActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_home, menu);
         menu.add("Agregar Clase");
-        menu.add(Menu.NONE,1, Menu.NONE,"Logout");
+        menu.add(Menu.NONE, 1, Menu.NONE, "Logout");
         return true;
     }
 
@@ -178,12 +178,16 @@ public class Home extends ActionBarActivity {
             Intent i = new Intent(this,AddClass.class);
             startActivity(i);
         }else if(id == 1){
+            id = -1;
             ParseManager.LogOut();
-            Intent i = new Intent(this,MainActivity.class);
-            startActivity(i);
-            this.finish();
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }
