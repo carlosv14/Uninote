@@ -15,6 +15,7 @@ public class AddClass extends AppCompatActivity {
         setContentView(R.layout.activity_add_class);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Agregar Clase");
 
 
     }
