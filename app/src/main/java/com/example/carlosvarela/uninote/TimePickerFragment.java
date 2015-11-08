@@ -1,12 +1,13 @@
 package com.example.carlosvarela.uninote;
 
 import android.app.Dialog;
-
+import android.support.v4.app.FragmentManager;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.widget.TimePicker;
 import android.support.v4.app.DialogFragment;
+
 
 import java.util.Calendar;
 
@@ -16,7 +17,7 @@ import java.util.Calendar;
 public  class TimePickerFragment extends DialogFragment
         implements TimePickerDialog.OnTimeSetListener {
 
-
+    private static final String ARG_SECTION_NUMBER = "section_number";
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the current time as the default values for the picker
@@ -37,6 +38,7 @@ public  class TimePickerFragment extends DialogFragment
         AddClass activity = (AddClass) getActivity();
         activity.saveData(bundle);
     }
+
 
 
 }
