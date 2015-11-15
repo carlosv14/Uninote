@@ -44,6 +44,19 @@ public class Materia extends ParseObject {
         this.minute  = minute;
     }
 
+    public String getMateriaName() {
+        return getString("Materia");
+    }
+
+    public void RefreshClass(){
+        this.Materia = getString("Materia");
+        this.Catedratico = getString("Catedratico");
+        this.Aula = getInt("Aula");
+        this.Seccion = getInt("Seccion");
+        this.uv = getInt("UV");
+        this.hour = getInt("Hora");
+        this.minute = getInt("Minute");
+    }
     
     public void PushClass(){
         put("Materia", this.Materia);
