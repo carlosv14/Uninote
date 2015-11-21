@@ -1,9 +1,15 @@
 package com.example.carlosvarela.uninote;
 
 import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
+import android.provider.CalendarContract;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.TypedValue;
@@ -25,6 +31,8 @@ import android.widget.Toast;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 
@@ -96,6 +104,10 @@ public class Home extends ActionBarActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 0) {
+            ListSelectedCalendars(getNewEventId(getApplicationContext().getContentResolver(), CalendarContract.Events.CONTENT_URI));
+
+        }
 
         if (requestCode == 1) {
             if(resultCode == Activity.RESULT_OK){
@@ -151,7 +163,87 @@ public class Home extends ActionBarActivity {
             }
         }
     }
+    public Date ListSelectedCalendars(long id) {
 
+
+        Uri eventUri;
+        if (android.os.Build.VERSION.SDK_INT <= 7) {
+            // the old way
+
+            eventUri = Uri.parse("content://calendar/events");
+        } else {
+            // the new way
+
+            eventUri = Uri.parse("content://com.android.calendar/events");
+        }
+
+        String result = "";
+        Date dtstart = null;
+        String projection[] = { "_id", "title" };
+        Cursor cursor = getContentResolver().query(eventUri, null, null, null,
+                null);
+        if (cursor.moveToFirst()) {
+
+            String calName;
+            String calID;
+
+            int nameCol = cursor.getColumnIndex(projection[1]);
+            int idCol = cursor.getColumnIndex(projection[0]);
+            do {
+                calName = cursor.getString(nameCol);
+                calID = cursor.getString(idCol);
+
+                if (Long.parseLong(calID) == id) {
+                    result = calName;
+                    dtstart = new Date(cursor.getLong(cursor.getColumnIndex(CalendarContract.Events.DTSTART)));
+                }
+
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+
+
+        return dtstart;
+
+    }
+    public static String getCalendarUriBase(Activity act) {
+        String calendarUriBase = null;
+        Uri calendars = Uri.parse("content://calendar/calendars");
+        Cursor managedCursor = null;
+
+        try {
+            managedCursor = act.getContentResolver().query(calendars,
+                    null, null, null, null);
+        } catch (Exception e) {
+        }
+
+        if (managedCursor != null) {
+            calendarUriBase = "content://calendar/";
+        } else {
+            calendars = Uri.parse("content://com.android.calendar/calendars");
+            try {
+                managedCursor = act.getContentResolver().query(calendars,
+                        null, null, null, null);
+            } catch (Exception e) {
+            }
+            if (managedCursor != null) {
+                calendarUriBase = "content://com.android.calendar/";
+            }
+        }
+
+        return calendarUriBase;
+    }
+
+    public static long getNewEventId(ContentResolver cr, Uri cal_uri){
+        Uri local_uri = cal_uri;
+        if(cal_uri == null){
+            local_uri = Uri.parse(cal_uri+"events");
+        }
+        Cursor cursor = cr.query(local_uri, new String [] {"MAX(_id) as max_id"}, null, null, "_id");
+        cursor.moveToFirst();
+        long max_val = cursor.getLong(cursor.getColumnIndex("max_id"));
+        return max_val;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -180,8 +272,10 @@ public class Home extends ActionBarActivity {
             startActivity(i);
         }else if(id == 1){
             id = -1;
-            Intent intent = new Intent(this, Event.class);
-            startActivity(intent);
+            Intent intent = new Intent(Intent.ACTION_INSERT);
+            intent.setData(CalendarContract.Events.CONTENT_URI);
+            startActivityForResult(intent, 0);
+
         }else if(id == 2){
             id = -1;
             ParseManager.LogOut();
@@ -189,7 +283,6 @@ public class Home extends ActionBarActivity {
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             this.finish();
-
         }
 
         return super.onOptionsItemSelected(item);

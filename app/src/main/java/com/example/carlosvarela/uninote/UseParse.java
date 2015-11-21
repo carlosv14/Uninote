@@ -16,6 +16,7 @@ public class UseParse extends Application  {
         super.onCreate();
         Parse.enableLocalDatastore(this);
         ParseObject.registerSubclass(Materia.class);
+        ParseObject.registerSubclass(Evento.class);
         Parse.initialize(this, "NqoiN2iCFTNLSNjyJjFEIxD3JFbYkTd9HbJm2Zvj", "reZZBayjfg5HVFJMWC7wme4RmgxbasgWuPTjBCFN");
 
     }
