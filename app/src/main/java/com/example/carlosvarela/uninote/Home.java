@@ -81,8 +81,7 @@ public class Home extends ActionBarActivity {
 
                         Intent i = new Intent(Home.this, ClassOverview.class);
                         Bundle bundle = new Bundle();
-
-                        bundle.putString("class", classes.get(position).Materia);
+                        bundle.putString("class", classes.get(position).toJson());
                         i.putExtras(bundle);
                         startActivity(i);
 
