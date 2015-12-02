@@ -25,7 +25,6 @@
 
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
@@ -95,6 +94,16 @@
         <activity
             android:name=".DrawPad"
             android:label="@string/title_activity_draw_pad"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity
+            android:name=".addClassmate"
+            android:label="@string/title_activity_add_classmate"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity
+            android:name=".AddClassmate"
+            android:label="@string/title_activity_add_classmate"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
     </application>
