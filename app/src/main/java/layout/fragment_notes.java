@@ -22,6 +22,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.PopupWindow;
+import android.widget.SeekBar;
 
 import com.example.carlosvarela.uninote.ClassOverview;
 import com.example.carlosvarela.uninote.R;
@@ -33,6 +34,8 @@ import com.parse.ParseObject;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -113,7 +116,7 @@ public class fragment_notes extends Fragment {
                     try {
                         ParseObject note = notes.get(position);
                         if( note.get("Type").equals("VoiceNote"))
-                            PlayAudioFile(note);
+                            PlayAudioFile(note, v);
                         else if(note.get("Type").equals("ImageNote"))
                             DisplayImageFile(note, v);
 
@@ -124,14 +127,54 @@ public class fragment_notes extends Fragment {
         }else
             System.out.println("grid is null");
     }
-    private void PlayAudioFile(ParseObject note) throws IOException {
+    private void PlayAudioFile(ParseObject note, View view) throws IOException {
         ParseFile file = (ParseFile)note.get("File");
         Uri audioFileUri = Uri.parse(file.getUrl());
-        MediaPlayer mPlayer = new MediaPlayer();
+        final MediaPlayer mPlayer = new MediaPlayer();
+
+        View popupView = getActivity().getLayoutInflater().inflate(R.layout.popupaudio, null);
+        final PopupWindow popupWindow = new PopupWindow(
+                popupView,
+                AbsListView.LayoutParams.WRAP_CONTENT,
+                AbsListView.LayoutParams.WRAP_CONTENT);
+        //popupWindow.showAsDropDown(view);
+        final SeekBar seekBar = (SeekBar) popupView.findViewById(R.id.seekBar);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.setFocusable(true);
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
         mPlayer.setDataSource(getActivity().getApplicationContext(), audioFileUri);
+        seekBar.setProgress(0);
+
+        mPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+
+            public void onPrepared(MediaPlayer mp) {
+                seekBar.setMax(mPlayer.getDuration());
+                Timer timer = new Timer();
+                timer.scheduleAtFixedRate(new TimerTask() {
+
+                    @Override
+                    public void run() {
+                        long currentDuration = mPlayer.getCurrentPosition();
+                        seekBar.setProgress((int)currentDuration);
+                    }
+
+                }, 0, 15);
+            }
+        });
         mPlayer.prepare();
         mPlayer.start();
+/*
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+
+            @Override
+            public void run() {
+                long currentDuration = mPlayer.getCurrentPosition();
+                seekBar.setProgress((int)currentDuration);
+            }
+
+        }, 0, 15);*/
     }
 
     private void DisplayImageFile(ParseObject note,final View view) throws IOException {
