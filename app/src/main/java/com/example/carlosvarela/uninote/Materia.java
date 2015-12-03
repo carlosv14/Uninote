@@ -35,10 +35,10 @@ public class Materia extends ParseObject {
         objectId = "";
     }
     public void Data(String Materia,
-            String Catedratico,
-            int Aula,
-            int uv,
-            int Seccion,int hour, int minute){
+                     String Catedratico,
+                     int Aula,
+                     int uv,
+                     int Seccion,int hour, int minute){
         this.Materia = Materia;
         this.Aula = Aula;
         this.Catedratico = Catedratico;
@@ -75,7 +75,7 @@ public class Materia extends ParseObject {
             put("objectId",this.objectId);
         }
     }
-    
+
     public void PushClass(){
         putProperties();
         setACL(new ParseACL(ParseUser.getCurrentUser()));

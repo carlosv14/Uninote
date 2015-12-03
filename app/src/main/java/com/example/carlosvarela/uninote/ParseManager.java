@@ -23,6 +23,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Carlos Varela on 10/31/2015.
  */
@@ -46,6 +49,32 @@ public  class ParseManager {
         adapter.notifyDataSetChanged();
         return materias;
     }
+
+
+    public static ArrayList<Taking> GetTakingUsers( final ArrayAdapter<String> classmates){
+        final ArrayList<Taking> takings = new ArrayList<>();
+        ParseQuery<Taking> query = ParseQuery.getQuery(Taking.class);
+       query.whereEqualTo("Seccion", 6);
+        query.findInBackground(new FindCallback<Taking>() {
+            @Override
+            public void done(List<Taking> results, ParseException e) {
+                for (Taking a : results) {
+                   a.RefreshClass();
+                    System.out.println(a.User);
+                    try {
+                        classmates.add(a.User.fetch().getUsername()+" <"+a.User.fetch().getEmail()+">");
+                    } catch (ParseException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            }
+        });
+        //adapter.clear();
+        //adapter.remove(adapter.getItem(0));
+        classmates.notifyDataSetChanged();
+        return takings;
+    }
+
 
     protected static void LogOut(){
         ParseUser.logOut();

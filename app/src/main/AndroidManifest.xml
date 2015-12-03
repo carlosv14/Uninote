@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.carlosvarela.uninote" >
 
+    <uses-sdk android:minSdkVersion="14" />
+
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -20,15 +24,16 @@
     <uses-feature android:name="android.hardware.camera" />
 
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="18" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".UseParse"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
         <activity
@@ -87,8 +92,18 @@
         </receiver>
 
         <activity
-            android:name=".Event"
-            android:label="@string/title_activity_event"
+            android:name=".DrawPad"
+            android:label="@string/title_activity_draw_pad"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity
+            android:name=".addClassmate"
+            android:label="@string/title_activity_add_classmate"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity
+            android:name=".AddClassmate"
+            android:label="@string/title_activity_add_classmate"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
     </application>
