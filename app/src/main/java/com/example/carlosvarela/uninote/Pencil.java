@@ -2,50 +2,45 @@ package com.example.carlosvarela.uninote;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.os.Environment;
-import android.provider.MediaStore;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.Toast;
-
-import com.parse.ParseObject;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import android.widget.EditText;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link Camera.OnFragmentInteractionListener} interface
+ * {@link Pencil.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link Camera#newInstance} factory method to
+ * Use the {@link Pencil#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Camera extends Fragment {
+public class Pencil extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    static final int REQUEST_IMAGE_CAPTURE = 1;
-    private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
-    private static final int RESULT_OK = -1 ;
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-    private ImageView mImageView;
-    public Materia materia;
 
+    public Pencil() {
+        // Required empty public constructor
+    }
 
     /**
      * Use this factory method to create a new instance of
@@ -53,24 +48,16 @@ public class Camera extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment Camera.
+     * @return A new instance of fragment Pencil.
      */
     // TODO: Rename and change types and number of parameters
-    public static Camera newInstance(String param1, String param2) {
-        Camera fragment = new Camera();
+    public static Pencil newInstance(String param1, String param2) {
+        Pencil fragment = new Pencil();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
-    }
-
-    public Camera() {
-        // Required empty public constructor
-    }
-
-    public Camera(Materia materia) {
-        this.materia = materia;
     }
 
     @Override
@@ -81,44 +68,18 @@ public class Camera extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        dispatchTakePictureIntent();
-
     }
-
-    private void dispatchTakePictureIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        try{
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-        }catch (Exception e){
-
-        }
-    }
-
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        mImageView = (ImageView) getActivity().findViewById(R.id.imageView);
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            System.out.println("Bitmap");
-            System.out.println(imageBitmap);
-            if(imageBitmap != null){
-                System.out.println("Entro al if");
-                mImageView.setImageBitmap(imageBitmap);
+    public void onActivityCreated(Bundle bundle){
 
-                ParseObject imageNote = new ParseObject("Note");
-                imageNote.put("Name", "Image Test");
-                imageNote.put("Materia", ParseObject.createWithoutData("Materia", materia.objectId));
-                ParseManager.uploadImageToParse(imageBitmap, imageNote, "File");
-            }
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_camera, container, false);
+        setHasOptionsMenu(true);
+        return inflater.inflate(R.layout.fragment_pencil, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -131,12 +92,12 @@ public class Camera extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-       /** try {
+       /* try {
             mListener = (OnFragmentInteractionListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement OnFragmentInteractionListener");
-        }**/
+        }*/
     }
 
     @Override
@@ -158,6 +119,52 @@ public class Camera extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(
+            Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.pencil_menu, menu);
+        System.out.println("Menu Inflater");
+    }
+
+    public static class LineEditText extends EditText {
+        // we need this constructor for LayoutInflater
+        public LineEditText(Context context, AttributeSet attrs) {
+            super(context, attrs);
+            mRect = new Rect();
+            mPaint = new Paint();
+            mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+            mPaint.setColor(Color.BLUE);
+        }
+
+        private Rect mRect;
+        private Paint mPaint;
+
+        @Override
+        protected void onDraw(Canvas canvas) {
+
+            int height = getHeight();
+            int line_height = getLineHeight();
+
+            int count = height / line_height;
+
+            if (getLineCount() > count)
+                count = getLineCount();
+
+            Rect r = mRect;
+            Paint paint = mPaint;
+            int baseline = getLineBounds(0, r);
+
+            for (int i = 0; i < count; i++) {
+
+                canvas.drawLine(r.left, baseline + 1, r.right, baseline + 1, paint);
+                baseline += getLineHeight();
+
+                super.onDraw(canvas);
+            }
+
+        }
     }
 
 }
