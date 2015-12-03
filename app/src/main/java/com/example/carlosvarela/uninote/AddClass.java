@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.parse.ParseUser;
+
 public class AddClass extends AppCompatActivity {
 
     public String Materia;
@@ -46,6 +48,9 @@ public class AddClass extends AppCompatActivity {
             Materia materia = new Materia();
             materia.Data(this.Materia,this.Catedratico,this.Aula,this.uv,this.Seccion,this.hour,this.minute);
             materia.PushClass();
+            Taking t= new Taking();
+            t.Data(this.Seccion);
+            t.PushClass();
             this.finish();
         }catch (Exception ex){
             Toast.makeText(getApplicationContext(),ex.toString(),Toast.LENGTH_LONG).show();
