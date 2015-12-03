@@ -28,6 +28,7 @@ import com.parse.ParseACL;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseRole;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -75,22 +76,41 @@ public class AddClassmate extends AppCompatActivity {
         });
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            ParseUser user;
             @Override
             public void onItemClick(AdapterView<?> parent, View v,
-                                    int position, long id) {
+                                    final int position, long id) {
+                final ParseACL acl = new ParseACL();
                 for (Taking classm: classmates
-                     ) {
+                        ) {
                     try {
                         String data = classm.User.fetch().getUsername()+" <"+classm.User.fetch().getEmail()+">";
                         if(data.equals(classmatesnames.get(position))){
-                            ParseACL acl = new ParseACL();
-                            acl.setReadAccess(classm.User.getObjectId(),true);
+                           user = classm.User;
+                            break;
                         }
-                    } catch (ParseException e) {
-                        e.printStackTrace();
+                    } catch (ParseException ex) {
+                        ex.printStackTrace();
                     }
 
                 }
+
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("Note");
+                query.whereEqualTo("objectId", "7dgKD5xCdW");
+                query.findInBackground(new FindCallback<ParseObject>() {
+                    public void done(List<ParseObject> results, ParseException e) {
+                        for (ParseObject a : results) {
+                            ParseACL p = a.getACL();
+                            p.setReadAccess(user,true);
+                            a.setACL(p);
+                            a.pinInBackground();
+                            a.saveEventually();
+
+                        }
+
+                    }
+                });
+
 
             }
         });

@@ -13,7 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import com.parse.ParseACL;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 import java.io.File;
 import java.io.IOException;
@@ -135,6 +137,7 @@ public class Voicenote extends Fragment {
         File audioFile = new File(mFileName);
         ParseObject voicenote = new ParseObject("Note");
         voicenote.put("Name", "Voice Test");
+        voicenote.setACL(new ParseACL(ParseUser.getCurrentUser()));
         voicenote.put("Materia", ParseObject.createWithoutData("Materia", materia.objectId));
         ParseManager.uploadAudioToParse(audioFile, voicenote, "File");
     }
