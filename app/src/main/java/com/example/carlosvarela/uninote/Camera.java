@@ -16,7 +16,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.parse.ParseACL;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -109,6 +111,7 @@ public class Camera extends Fragment {
                 ParseObject imageNote = new ParseObject("Note");
                 imageNote.put("Name", "Image Test");
                 imageNote.put("Materia", ParseObject.createWithoutData("Materia", materia.objectId));
+                imageNote.setACL(new ParseACL(ParseUser.getCurrentUser()));
                 ParseManager.uploadImageToParse(imageBitmap, imageNote, "File");
             }
         }

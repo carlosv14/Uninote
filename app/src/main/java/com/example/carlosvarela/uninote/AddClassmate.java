@@ -7,6 +7,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -22,17 +24,20 @@ import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.GetCallback;
+import com.parse.ParseACL;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseRole;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddClassmate extends AppCompatActivity  implements View.OnKeyListener {
+public class AddClassmate extends AppCompatActivity {
     public ArrayList<Taking> classmates;
     public ArrayList<String > classmatesnames;
+    ArrayAdapter<String> adapter;
     private ListView lv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,42 +46,76 @@ public class AddClassmate extends AppCompatActivity  implements View.OnKeyListen
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         EditText username = (EditText) findViewById(R.id.editText9);
-        username.setOnKeyListener(this);
         lv = (ListView) findViewById(R.id.listView);
-
-    }
-    @Override
-    public boolean onKey(View view, int keyCode, KeyEvent event) {
         classmates = new ArrayList<>();
         classmatesnames = new ArrayList<>();
-        EditText myEditText = (EditText) view;
+        classmatesnames.add("");
+         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, classmatesnames);
+         classmates=ParseManager.GetTakingUsers(adapter);
+        classmatesnames.remove(0);
+        lv.setAdapter(adapter);
+        username.addTextChangedListener(new TextWatcher() {
 
-        if (keyCode == EditorInfo.IME_ACTION_SEARCH ||
-                keyCode == EditorInfo.IME_ACTION_DONE ||
-                event.getAction() == KeyEvent.ACTION_DOWN &&
-                        event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
-
-            if (!event.isShiftPressed()) {
-                Log.v("AndroidEnterKeyActivity", "Enter Key Pressed!");
-                switch (view.getId()) {
-                    case R.id.editText9:
-                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, classmatesnames);
-                        ParseManager.GetTakingUsers(adapter);
-                        lv.setAdapter(adapter);
-                        /*result
-                                .setText("Just pressed the ENTER key, " +
-                                        "focus was on Text Box1. " +
-                                        "You typed:\n" + myEditText.getText());*/
-                        break;
-
-                }
-                return true;
+            @Override
+            public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
+                // When user changed the Text
+                AddClassmate.this.adapter.getFilter().filter(cs);
             }
 
-        }
-        return false;
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
+                                          int arg3) {
+                // TODO Auto-generated method stub
 
+            }
+
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                // TODO Auto-generated method stub
+            }
+        });
+
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            ParseUser user;
+            @Override
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    final int position, long id) {
+                final ParseACL acl = new ParseACL();
+                for (Taking classm: classmates
+                        ) {
+                    try {
+                        String data = classm.User.fetch().getUsername()+" <"+classm.User.fetch().getEmail()+">";
+                        if(data.equals(classmatesnames.get(position))){
+                           user = classm.User;
+                            break;
+                        }
+                    } catch (ParseException ex) {
+                        ex.printStackTrace();
+                    }
+
+                }
+
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("Note");
+                query.whereEqualTo("objectId", "7dgKD5xCdW");
+                query.findInBackground(new FindCallback<ParseObject>() {
+                    public void done(List<ParseObject> results, ParseException e) {
+                        for (ParseObject a : results) {
+                            ParseACL p = a.getACL();
+                            p.setReadAccess(user,true);
+                            a.setACL(p);
+                            a.pinInBackground();
+                            a.saveEventually();
+
+                        }
+
+                    }
+                });
+
+
+            }
+        });
     }
+
 
 
 

@@ -63,6 +63,7 @@ public  class ParseManager {
                 for (Taking a : results) {
                    a.RefreshClass();
                     System.out.println(a.User);
+                    takings.add(a);
                     try {
                         classmates.add(a.User.fetch().getUsername()+" <"+a.User.fetch().getEmail()+">");
                     } catch (ParseException e1) {

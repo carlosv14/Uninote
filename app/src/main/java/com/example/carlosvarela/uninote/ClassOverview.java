@@ -61,6 +61,8 @@ public class ClassOverview extends AppCompatActivity {
         ArrayAdapter<ParseObject> adapter = NotesFragment();
         getSupportActionBar().setTitle(title);
         ((fragment_notes)currentFragment).fillGrid(adapter);
+
+
     }
 
     private List<ParseObject> updateNotesList(){
@@ -179,11 +181,10 @@ public class ClassOverview extends AppCompatActivity {
             Intent i = new Intent(this,SettingsActivity.class);
             startActivity(i);
             return true;
-        }else if(id == 0){
-            Intent i = new Intent(this,AddClassmate.class);
-            startActivity(i);
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }

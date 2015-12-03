@@ -10,6 +10,7 @@
         android:adjustViewBounds="true"
          />
     <ImageButton
+        android:id="@+id/share_btn"
         android:layout_width="240dp"
         android:layout_height="50dp"
     android:src="@drawable/share"/>

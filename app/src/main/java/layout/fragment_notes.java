@@ -24,6 +24,7 @@ import android.widget.ListAdapter;
 import android.widget.PopupWindow;
 import android.widget.SeekBar;
 
+import com.example.carlosvarela.uninote.AddClassmate;
 import com.example.carlosvarela.uninote.ClassOverview;
 import com.example.carlosvarela.uninote.R;
 import com.parse.GetDataCallback;
