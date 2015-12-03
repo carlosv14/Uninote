@@ -58,7 +58,7 @@ public class ClassOverview extends AppCompatActivity {
     }
 
     private List<ParseObject> updateNotesList(){
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("VoiceNote");
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Note");
         query.whereEqualTo("Materia", ParseObject.createWithoutData("Materia", materia.objectId));
         try{
             return query.find();
@@ -77,12 +77,17 @@ public class ClassOverview extends AppCompatActivity {
         ArrayAdapter<ParseObject> adapter = new ArrayAdapter<ParseObject>(this, android.R.layout.simple_list_item_1, notes){
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position,convertView,parent);
-                view.setPadding(10,10,10,10);
+                view.setPadding(10, 10, 10, 10);
                 TextView tv = (TextView) view;
                 tv.setTextColor(Color.WHITE);
-                tv.setText((String) notes.get(position).get("Name"));
+                ParseObject note = notes.get(position);
+                tv.setText((String) note.get("Name"));
                 tv.setBackgroundColor(Color.parseColor("#009688"));
-                tv.setBackgroundResource(R.drawable.mic);
+                System.out.println(note.get("Type"));
+                if( note.get("Type").equals("VoiceNote"))
+                    tv.setBackgroundResource(R.drawable.mic);
+                else if(note.get("Type").equals("ImageNote"))
+                    tv.setBackgroundResource(R.drawable.camera);
                 return tv;
             }
         };
@@ -116,7 +121,7 @@ public class ClassOverview extends AppCompatActivity {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        Fragment newFragment = new Camera();
+        Fragment newFragment = new Camera(materia);
         currentFragment = newFragment;
         fragmentTransaction.replace(R.id.fragmentContainer, newFragment);
         fragmentTransaction.addToBackStack(null);

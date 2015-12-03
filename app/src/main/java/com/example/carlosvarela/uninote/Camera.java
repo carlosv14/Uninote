@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.parse.ParseObject;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -42,7 +44,7 @@ public class Camera extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private ImageView mImageView;
-
+    public Materia materia;
 
 
     /**
@@ -65,6 +67,10 @@ public class Camera extends Fragment {
 
     public Camera() {
         // Required empty public constructor
+    }
+
+    public Camera(Materia materia) {
+        this.materia = materia;
     }
 
     @Override
@@ -94,7 +100,17 @@ public class Camera extends Fragment {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
-            mImageView.setImageBitmap(imageBitmap);
+            System.out.println("Bitmap");
+            System.out.println(imageBitmap);
+            if(imageBitmap != null){
+                System.out.println("Entro al if");
+                mImageView.setImageBitmap(imageBitmap);
+
+                ParseObject imageNote = new ParseObject("Note");
+                imageNote.put("Name", "Image Test");
+                imageNote.put("Materia", ParseObject.createWithoutData("Materia", materia.objectId));
+                ParseManager.uploadImageToParse(imageBitmap, imageNote, "File");
+            }
         }
     }
 

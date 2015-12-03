@@ -133,10 +133,8 @@ public class Voicenote extends Fragment {
         mRecorder.release();
         mRecorder = null;
         File audioFile = new File(mFileName);
-        ParseObject voicenote = new ParseObject("VoiceNote");
-        voicenote.put("Name", "Test");
-        System.out.println("id:");
-        System.out.println(materia.objectId);
+        ParseObject voicenote = new ParseObject("Note");
+        voicenote.put("Name", "Voice Test");
         voicenote.put("Materia", ParseObject.createWithoutData("Materia", materia.objectId));
         ParseManager.uploadAudioToParse(audioFile, voicenote, "File");
     }

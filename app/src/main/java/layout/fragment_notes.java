@@ -3,21 +3,27 @@ package layout;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
+import android.widget.PopupWindow;
 
 import com.example.carlosvarela.uninote.ClassOverview;
 import com.example.carlosvarela.uninote.R;
+import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -103,13 +109,12 @@ public class fragment_notes extends Fragment {
                 public void onItemClick(AdapterView<?> parent, View v,
                                         int position, long id) {
                     try {
-                        ParseFile file = (ParseFile)notes.get(position).get("File");
-                        Uri audioFileUri = Uri.parse(file.getUrl());
-                        MediaPlayer mPlayer = new MediaPlayer();
+                        ParseObject note = notes.get(position);
+                        if( note.get("Type").equals("VoiceNote"))
+                            PlayAudioFile(note);
+                        else if(note.get("Type").equals("ImageNote"))
+                            DisplayImageFile(note, v);
 
-                        mPlayer.setDataSource(getActivity().getApplicationContext(), audioFileUri);
-                        mPlayer.prepare();
-                        mPlayer.start();
                     } catch (Exception e) {
                     }
                 }
@@ -117,7 +122,51 @@ public class fragment_notes extends Fragment {
         }else
             System.out.println("grid is null");
     }
+    private void PlayAudioFile(ParseObject note) throws IOException {
+        ParseFile file = (ParseFile)note.get("File");
+        Uri audioFileUri = Uri.parse(file.getUrl());
+        MediaPlayer mPlayer = new MediaPlayer();
 
+        mPlayer.setDataSource(getActivity().getApplicationContext(), audioFileUri);
+        mPlayer.prepare();
+        mPlayer.start();
+    }
+
+    private void DisplayImageFile(ParseObject note,final View view) throws IOException {
+        System.out.println("diplayImageFile");
+        ParseFile file = (ParseFile)note.get("File");
+        Uri imageFileUri = Uri.parse(file.getUrl());
+        file.getDataInBackground(new GetDataCallback() {
+            public void done(byte[] data, ParseException e) {
+                if (e == null) {
+                    View popupView = getActivity().getLayoutInflater().inflate(R.layout.image_popup, null);
+                    final PopupWindow popupWindow = new PopupWindow(
+                            popupView,
+                            AbsListView.LayoutParams.WRAP_CONTENT,
+                            AbsListView.LayoutParams.WRAP_CONTENT);
+                    ImageView image =(ImageView) popupView.findViewById(R.id.popupImageView);
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                    image.setImageBitmap(bitmap);
+                    popupWindow.showAsDropDown(view);
+
+                } else {
+                    Log.d("test", "There was a problem downloading the data.");
+                }
+            }
+        });
+        /*
+        View popupView = getActivity().getLayoutInflater().inflate(R.layout.image_popup, null);
+        final PopupWindow popupWindow = new PopupWindow(
+                popupView,
+                AbsListView.LayoutParams.WRAP_CONTENT,
+                AbsListView.LayoutParams.WRAP_CONTENT);
+        ImageView image =(ImageView) popupView.findViewById(R.id.popupImageView);
+        System.out.println("bitmap");
+        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), imageFileUri);
+        System.out.println("bitmap");
+        image.setImageBitmap(bitmap);
+        popupWindow.showAsDropDown(view);*/
+    }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
