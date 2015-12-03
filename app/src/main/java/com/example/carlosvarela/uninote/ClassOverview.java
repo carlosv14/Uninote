@@ -19,6 +19,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.parse.FindCallback;
@@ -77,21 +79,23 @@ public class ClassOverview extends AppCompatActivity {
         if(notes == null)
             return null;
 
-        ArrayAdapter<ParseObject> adapter = new ArrayAdapter<ParseObject>(this, android.R.layout.simple_list_item_1, notes){
+        ArrayAdapter<ParseObject> adapter = new ArrayAdapter<ParseObject>(this, R.layout.note_grid_item, R.id.noteTextItem,notes){
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position,convertView,parent);
                 view.setPadding(10, 10, 10, 10);
-                TextView tv = (TextView) view;
+                LinearLayout linearLayout = (LinearLayout) view;
+                TextView tv =(TextView) linearLayout.findViewById(R.id.noteTextItem);
                 tv.setTextColor(Color.WHITE);
                 ParseObject note = notes.get(position);
                 tv.setText((String) note.get("Name"));
-                tv.setBackgroundColor(Color.parseColor("#009688"));
-                System.out.println(note.get("Type"));
+                //tv.setBackgroundColor(Color.parseColor("#009688"));
+                //System.out.println(note.get("Type"));
+                ImageView imageView = (ImageView)linearLayout.findViewById(R.id.noteImageItem);
                 if( note.get("Type").equals("VoiceNote"))
-                    tv.setBackgroundResource(R.drawable.mic);
+                    imageView.setImageResource(R.drawable.mic);
                 else if(note.get("Type").equals("ImageNote"))
-                    tv.setBackgroundResource(R.drawable.camera);
-                return tv;
+                    imageView.setImageResource(R.drawable.camera);
+                return linearLayout;
             }
         };
         Fragment newFragment = new fragment_notes();
