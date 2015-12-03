@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -146,8 +148,12 @@ public class fragment_notes extends Fragment {
                             AbsListView.LayoutParams.WRAP_CONTENT);
                     ImageView image =(ImageView) popupView.findViewById(R.id.popupImageView);
                     Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-                    image.setImageBitmap(bitmap);
-                    popupWindow.showAsDropDown(view);
+                    Bitmap newbitMap = Bitmap.createScaledBitmap(bitmap, 480, 480, true);
+                    image.setImageBitmap(newbitMap);
+                    //popupWindow.showAsDropDown(view);
+                    popupWindow.setBackgroundDrawable(new BitmapDrawable());
+                    popupWindow.setFocusable(true);
+                    popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
                 } else {
                     Log.d("test", "There was a problem downloading the data.");

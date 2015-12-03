@@ -37,6 +37,8 @@ public  class ParseManager {
         query.findInBackground(new FindCallback<Materia>() {
             @Override
             public void done(List<Materia> results, ParseException e) {
+                if(results == null)
+                    return;
                 for (Materia a : results) {
                     a.RefreshClass();
                     System.out.println(a.Materia);
