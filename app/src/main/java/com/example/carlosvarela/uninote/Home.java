@@ -28,6 +28,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.Parse;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ import java.util.List;
 
 public class Home extends ActionBarActivity {
 
-    public ArrayList<String> classes;
+    public ArrayList<Materia> classes;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,37 +48,40 @@ public class Home extends ActionBarActivity {
 
         ParseUser currentUser = ParseUser.getCurrentUser();
         if (currentUser != null) {
-            classes = new ArrayList<String>();
+            classes = new ArrayList<>();
+            Materia materia = new Materia();
+            materia.Materia = "hola";
+            classes.add(materia);
+            ArrayAdapter<Materia> adapter = new ArrayAdapter<Materia>(this, android.R.layout.simple_list_item_1, classes){
+                public View getView(int position, View convertView, ViewGroup parent) {
+
+                    // Return the GridView current item as a View
+                    View view = super.getView(position,convertView,parent);
+
+                    // Convert the view as a TextView widget
+                    TextView tv = (TextView) view;
+
+                    // set the TextView text color (GridView item color)
+                    tv.setTextColor(Color.WHITE);
+
+                    // Set the TextView text (GridView item text)
+                    tv.setText(classes.get(position).Materia);
+
+                    // Set the TextView background color
+                    tv.setBackgroundColor(Color.parseColor("#009688"));
+
+                    // Return the TextView widget as GridView item
+                    return tv;
+                }
+            };
+
+            //classes = ParseManager.GetClasses(adapter);
+            ParseManager.GetClasses(adapter);
+            classes.remove(0);
             GridView lv = (GridView)findViewById(android.R.id.list);
-            classes.add("Algebra");
-            classes.add("Sociologia");
-            classes.add("Historia de Honduras");
-            classes.add("Espanol");
-            if(lv != null)
-                lv.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, classes){
-                    public View getView(int position, View convertView, ViewGroup parent) {
-
-                        // Return the GridView current item as a View
-                        View view = super.getView(position,convertView,parent);
-
-                        // Convert the view as a TextView widget
-                        TextView tv = (TextView) view;
-
-                        // set the TextView text color (GridView item color)
-                        tv.setTextColor(Color.WHITE);
-
-                        // Set the TextView text (GridView item text)
-                        tv.setText(classes.get(position));
-
-                        // Set the TextView background color
-                        tv.setBackgroundColor(Color.parseColor("#009688"));
-
-                        // Return the TextView widget as GridView item
-                        return tv;
-                    }
-                });
 
             if (lv != null) {
+                lv.setAdapter(adapter);
                 lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View v,
@@ -85,8 +89,7 @@ public class Home extends ActionBarActivity {
 
                         Intent i = new Intent(Home.this, ClassOverview.class);
                         Bundle bundle = new Bundle();
-
-                        bundle.putString("class", classes.get(position));
+                        bundle.putString("class", classes.get(position).toJson());
                         i.putExtras(bundle);
                         startActivity(i);
 
@@ -110,36 +113,38 @@ public class Home extends ActionBarActivity {
         }
 
         if (requestCode == 1) {
-            if(resultCode == Activity.RESULT_OK){
-                classes = new ArrayList<String>();
+            if(resultCode == Activity.RESULT_OK)
+            {
+                classes = new ArrayList<>();
+                Materia materia = new Materia();
+                materia.Materia = "hola";
+                classes.add(materia);
+                ArrayAdapter<Materia> adapter = new ArrayAdapter<Materia>(this, android.R.layout.simple_list_item_1, classes){
+                    public View getView(int position, View convertView, ViewGroup parent) {
+
+                        // Return the GridView current item as a View
+                        View view = super.getView(position,convertView,parent);
+
+                        // Convert the view as a TextView widget
+                        TextView tv = (TextView) view;
+
+                        // set the TextView text color (GridView item color)
+                        tv.setTextColor(Color.WHITE);
+
+                        // Set the TextView text (GridView item text)
+                        tv.setText(classes.get(position).Materia);
+
+                        // Set the TextView background color
+                        tv.setBackgroundColor(Color.parseColor("#009688"));
+
+                        // Return the TextView widget as GridView item
+                        return tv;
+                    }
+                };
+                //classes = ParseManager.GetClasses(adapter);
                 GridView lv = (GridView)findViewById(android.R.id.list);
-                classes.add("Algebra");
-                classes.add("Sociologia");
-                classes.add("Historia de Honduras");
-                classes.add("Espanol");
                 if(lv != null)
-                    lv.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, classes){
-                        public View getView(int position, View convertView, ViewGroup parent) {
-
-                            // Return the GridView current item as a View
-                            View view = super.getView(position,convertView,parent);
-
-                            // Convert the view as a TextView widget
-                            TextView tv = (TextView) view;
-
-                            // set the TextView text color (GridView item color)
-                            tv.setTextColor(Color.WHITE);
-
-                            // Set the TextView text (GridView item text)
-                            tv.setText(classes.get(position));
-
-                            // Set the TextView background color
-                            tv.setBackgroundColor(Color.parseColor("#009688"));
-
-                            // Return the TextView widget as GridView item
-                            return tv;
-                          }
-                    });
+                    lv.setAdapter(adapter);
 
                 if (lv != null) {
                     lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -148,7 +153,7 @@ public class Home extends ActionBarActivity {
                                                 int position, long id) {
                             Intent i = new Intent(Home.this, ClassOverview.class);
                             Bundle bundle = new Bundle();
-                            bundle.putString("class", classes.get(position));
+                            bundle.putString("class", classes.get(position).Materia);
                             i.putExtras(bundle);
                             startActivity(i);
 
@@ -244,6 +249,7 @@ public class Home extends ActionBarActivity {
         long max_val = cursor.getLong(cursor.getColumnIndex("max_id"));
         return max_val;
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

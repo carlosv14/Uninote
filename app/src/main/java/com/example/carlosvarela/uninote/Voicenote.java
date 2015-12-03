@@ -13,6 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import com.parse.ParseObject;
+
+import java.io.File;
 import java.io.IOException;
 
 
@@ -42,12 +45,18 @@ public class Voicenote extends Fragment {
     private ImageButton mPlayButton = null;
     private MediaPlayer mPlayer = null;
     public boolean isRecording = false;
+    private Materia materia;
 
     private OnFragmentInteractionListener mListener;
 
     public Voicenote() {
         // Required empty public constructor
     }
+
+    public Voicenote(Materia materia) {
+        this.materia = materia;
+    }
+
 
     /**
      * Use this factory method to create a new instance of
@@ -123,6 +132,11 @@ public class Voicenote extends Fragment {
         mRecorder.stop();
         mRecorder.release();
         mRecorder = null;
+        File audioFile = new File(mFileName);
+        ParseObject voicenote = new ParseObject("Note");
+        voicenote.put("Name", "Voice Test");
+        voicenote.put("Materia", ParseObject.createWithoutData("Materia", materia.objectId));
+        ParseManager.uploadAudioToParse(audioFile, voicenote, "File");
     }
 
     @Override

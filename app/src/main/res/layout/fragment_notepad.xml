@@ -7,15 +7,48 @@
     <!-- TODO: Update blank fragment layout -->
 
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
-        android:ems="10"
-        android:id="@+id/editText13"
-        android:layout_gravity="center_horizontal|top"
-        android:lines="24"
-        android:background="#FFF9C4"
-        android:gravity="top" />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:weightSum="1">
+        <view
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            class="com.example.carlosvarela.uninote.Pencil$LineEditText"
+            android:background="@android:color/transparent"
+            android:inputType="textMultiLine"
+            android:fadingEdge="vertical"
+            android:gravity="top"
+            android:padding="5dp"
+            android:scrollbars="vertical"
+            android:textSize="22sp"
+            android:layout_weight="0.8"
+            android:hint="Title"/>
+
+        <view
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/body"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            class="com.example.carlosvarela.uninote.Pencil$LineEditText"
+            android:background="@android:color/transparent"
+            android:inputType="textMultiLine"
+            android:fadingEdge="vertical"
+            android:gravity="top"
+            android:padding="5dp"
+            android:scrollbars="vertical"
+            android:textSize="22sp"
+            android:layout_weight="0.3" />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/check_circle"
+            android:foregroundGravity="center_vertical|center"
+            android:layout_gravity="center_horizontal" />
+
+    </LinearLayout>
 
 </FrameLayout>
