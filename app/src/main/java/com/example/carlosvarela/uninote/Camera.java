@@ -110,7 +110,7 @@ public class Camera extends Fragment {
 
                 ParseObject imageNote = new ParseObject("Note");
                 imageNote.put("Name", "Image Test");
-                imageNote.put("Materia", ParseObject.createWithoutData("Materia", materia.objectId));
+                imageNote.put("SeccionMateria",materia.Seccion);
                 imageNote.setACL(new ParseACL(ParseUser.getCurrentUser()));
                 ParseManager.uploadImageToParse(imageBitmap, imageNote, "File");
             }

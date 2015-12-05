@@ -18,12 +18,15 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.Adapter;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.PopupWindow;
 import android.widget.SeekBar;
 
+import com.example.carlosvarela.uninote.AddClass;
 import com.example.carlosvarela.uninote.AddClassmate;
 import com.example.carlosvarela.uninote.ClassOverview;
 import com.example.carlosvarela.uninote.R;
@@ -60,7 +63,7 @@ public class fragment_notes extends Fragment {
     private OnFragmentInteractionListener mListener;
     private ListAdapter adapter;
     public ArrayList<ParseObject> notes;
-
+    public String objId;
     public fragment_notes() {
         // Required empty public constructor
     }
@@ -77,6 +80,7 @@ public class fragment_notes extends Fragment {
     public static fragment_notes newInstance(String param1, String param2) {
         fragment_notes fragment = new fragment_notes();
         Bundle args = new Bundle();
+
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
@@ -90,6 +94,7 @@ public class fragment_notes extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        objId="";
     }
 
     public void fillGrid(ListAdapter adapter){
@@ -101,6 +106,7 @@ public class fragment_notes extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_notes, container, false);
+
     }
 
     @Override
@@ -116,6 +122,8 @@ public class fragment_notes extends Fragment {
                                         int position, long id) {
                     try {
                         ParseObject note = notes.get(position);
+                        objId = note.getObjectId();
+;
                         if( note.get("Type").equals("VoiceNote"))
                             PlayAudioFile(note, v);
                         else if(note.get("Type").equals("ImageNote"))
@@ -134,6 +142,15 @@ public class fragment_notes extends Fragment {
         final MediaPlayer mPlayer = new MediaPlayer();
 
         View popupView = getActivity().getLayoutInflater().inflate(R.layout.popupaudio, null);
+        ImageButton btn = (ImageButton)popupView.findViewById(R.id.audioshare);
+        btn.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(),AddClassmate.class);
+                i.putExtra("ID",objId);
+                startActivity(i);
+            }
+        });
         final PopupWindow popupWindow = new PopupWindow(
                 popupView,
                 AbsListView.LayoutParams.WRAP_CONTENT,
@@ -186,6 +203,18 @@ public class fragment_notes extends Fragment {
             public void done(byte[] data, ParseException e) {
                 if (e == null) {
                     View popupView = getActivity().getLayoutInflater().inflate(R.layout.image_popup, null);
+                    ImageButton btn = (ImageButton)popupView.findViewById(R.id.share_btn);
+                    btn.setOnClickListener(new Button.OnClickListener(){
+
+                        @Override
+                        public void onClick(View v) {
+                            Intent i = new Intent(getActivity(),AddClassmate.class);
+                            i.putExtra("ID",objId);
+                            startActivity(i);
+                        }
+                    });
+
+
                     final PopupWindow popupWindow = new PopupWindow(
                             popupView,
                             AbsListView.LayoutParams.WRAP_CONTENT,
@@ -198,7 +227,6 @@ public class fragment_notes extends Fragment {
                     popupWindow.setBackgroundDrawable(new BitmapDrawable());
                     popupWindow.setFocusable(true);
                     popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
-
                 } else {
                     Log.d("test", "There was a problem downloading the data.");
                 }
@@ -217,7 +245,11 @@ public class fragment_notes extends Fragment {
         image.setImageBitmap(bitmap);
         popupWindow.showAsDropDown(view);*/
     }
-
+    public void share(){
+        Intent i = new Intent(getActivity(),AddClassmate.class);
+        i.putExtra("ID",objId);
+        startActivity(i);
+    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {

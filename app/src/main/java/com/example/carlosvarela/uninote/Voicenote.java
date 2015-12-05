@@ -138,7 +138,7 @@ public class Voicenote extends Fragment {
         ParseObject voicenote = new ParseObject("Note");
         voicenote.put("Name", "Voice Test");
         voicenote.setACL(new ParseACL(ParseUser.getCurrentUser()));
-        voicenote.put("Materia", ParseObject.createWithoutData("Materia", materia.objectId));
+        voicenote.put("SeccionMateria", materia.Seccion);
         ParseManager.uploadAudioToParse(audioFile, voicenote, "File");
     }
 

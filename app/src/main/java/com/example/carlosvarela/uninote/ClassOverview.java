@@ -67,7 +67,7 @@ public class ClassOverview extends AppCompatActivity {
 
     private List<ParseObject> updateNotesList(){
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Note");
-        query.whereEqualTo("Materia", ParseObject.createWithoutData("Materia", materia.objectId));
+        query.whereEqualTo("SeccionMateria", materia.Seccion);
         try{
             return query.find();
         }catch (com.parse.ParseException e){
@@ -75,6 +75,7 @@ public class ClassOverview extends AppCompatActivity {
         }
         return null;
     }
+
 
     public ArrayAdapter<ParseObject> NotesFragment(){
         final ArrayList<ParseObject> notes =(ArrayList) updateNotesList();
@@ -166,7 +167,6 @@ public class ClassOverview extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_home, menu);
-        menu.add(Menu.NONE, 0, Menu.NONE, "Agregar Compañero");
         return true;
     }
     @Override

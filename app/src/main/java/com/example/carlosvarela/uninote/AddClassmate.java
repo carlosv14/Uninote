@@ -39,9 +39,13 @@ public class AddClassmate extends AppCompatActivity {
     public ArrayList<String > classmatesnames;
     ArrayAdapter<String> adapter;
     private ListView lv;
+    Intent i;
+    String objId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        i = getIntent();
+        objId = i.getStringExtra("ID");
         setContentView(R.layout.activity_add_classmate);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -81,11 +85,11 @@ public class AddClassmate extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View v,
                                     final int position, long id) {
                 final ParseACL acl = new ParseACL();
-                for (Taking classm: classmates
+               for (Taking classm: classmates
                         ) {
                     try {
                         String data = classm.User.fetch().getUsername()+" <"+classm.User.fetch().getEmail()+">";
-                        if(data.equals(classmatesnames.get(position))){
+                        if(data.equals(lv.getItemAtPosition(position))){
                            user = classm.User;
                             break;
                         }
@@ -96,7 +100,7 @@ public class AddClassmate extends AppCompatActivity {
                 }
 
                 ParseQuery<ParseObject> query = ParseQuery.getQuery("Note");
-                query.whereEqualTo("objectId", "7dgKD5xCdW");
+                query.whereEqualTo("objectId", objId);
                 query.findInBackground(new FindCallback<ParseObject>() {
                     public void done(List<ParseObject> results, ParseException e) {
                         for (ParseObject a : results) {
