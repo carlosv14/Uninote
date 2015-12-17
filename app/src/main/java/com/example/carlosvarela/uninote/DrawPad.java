@@ -22,13 +22,22 @@ import android.content.DialogInterface;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
 
+import com.parse.ParseACL;
+import com.parse.ParseObject;
+import com.parse.ParseUser;
+
 public class DrawPad extends Activity implements View.OnClickListener {
     private DrawingView drawView;
     private ImageButton currPaint, drawBtn, eraseBtn,newBtn,saveBtn;
     private float smallBrush, mediumBrush, largeBrush;
+    public Materia materia;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        materia= (Materia) getIntent().getSerializableExtra("Materia");
         setContentView(R.layout.activity_draw_pad);
         drawView = (DrawingView)findViewById(R.id.drawing);
         LinearLayout paintLayout = (LinearLayout)findViewById(R.id.paint_colors);
@@ -159,6 +168,12 @@ public class DrawPad extends Activity implements View.OnClickListener {
                             getContentResolver(), drawView.getDrawingCache(),
                             UUID.randomUUID().toString()+".png", "drawing");
                     if(imgSaved!=null){
+                        ParseObject imageNote = new ParseObject("Note");
+                        imageNote.put("Name", "Drawpad Test");
+                        imageNote.put("SeccionMateria",6);
+                        imageNote.setACL(new ParseACL(ParseUser.getCurrentUser()));
+                        ParseManager.uploadImageToParse( drawView.getDrawingCache(), imageNote, "File");
+
                         Toast savedToast = Toast.makeText(getApplicationContext(),
                                 "Drawing saved to Gallery!", Toast.LENGTH_SHORT);
                         savedToast.show();

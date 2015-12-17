@@ -25,10 +25,12 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.PopupWindow;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 import com.example.carlosvarela.uninote.AddClass;
 import com.example.carlosvarela.uninote.AddClassmate;
 import com.example.carlosvarela.uninote.ClassOverview;
+import com.example.carlosvarela.uninote.Home;
 import com.example.carlosvarela.uninote.R;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
@@ -143,12 +145,21 @@ public class fragment_notes extends Fragment {
 
         View popupView = getActivity().getLayoutInflater().inflate(R.layout.popupaudio, null);
         ImageButton btn = (ImageButton)popupView.findViewById(R.id.audioshare);
+        ImageButton btn2 = (ImageButton)popupView.findViewById(R.id.audiodelete);
         btn.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(),AddClassmate.class);
                 i.putExtra("ID",objId);
                 startActivity(i);
+            }
+        });
+
+        btn2.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                ParseObject.createWithoutData("Note", objId).deleteEventually();
+
             }
         });
         final PopupWindow popupWindow = new PopupWindow(
@@ -204,8 +215,8 @@ public class fragment_notes extends Fragment {
                 if (e == null) {
                     View popupView = getActivity().getLayoutInflater().inflate(R.layout.image_popup, null);
                     ImageButton btn = (ImageButton)popupView.findViewById(R.id.share_btn);
+                    ImageButton btn2 =(ImageButton)popupView.findViewById(R.id.delete_btn);
                     btn.setOnClickListener(new Button.OnClickListener(){
-
                         @Override
                         public void onClick(View v) {
                             Intent i = new Intent(getActivity(),AddClassmate.class);
@@ -213,6 +224,28 @@ public class fragment_notes extends Fragment {
                             startActivity(i);
                         }
                     });
+
+
+
+                    btn2.setOnClickListener(new Button.OnClickListener(){
+                        @Override
+                        public void onClick(View v) {
+                            try {
+                                ParseObject.createWithoutData("Note", objId).delete();
+                                Intent i = new Intent(getActivity(),Home.class);
+                                Toast.makeText(getActivity(),
+                                        "Successfully deleted", Toast.LENGTH_LONG)
+                                        .show();
+                                startActivity(i);
+                            } catch (ParseException e1) {
+                                Toast.makeText(getActivity(),
+                                        "You do not have enough permission to delete this note", Toast.LENGTH_LONG)
+                                        .show();
+                            }
+
+                        }
+                    });
+
 
 
                     final PopupWindow popupWindow = new PopupWindow(

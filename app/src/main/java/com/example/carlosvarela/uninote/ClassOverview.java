@@ -30,6 +30,7 @@ import com.parse.ParseUser;
 
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -123,7 +124,10 @@ public class ClassOverview extends AppCompatActivity {
         fragmentTransaction.replace(R.id.fragmentContainer, newFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();**/
+
+
         Intent intent = new Intent(this,DrawPad.class);
+        intent.putExtra("Materia", (Serializable) materia);
         startActivity(intent);
     }
 

@@ -9,9 +9,17 @@
         android:scaleType="centerInside"
         android:adjustViewBounds="true"
          />
+
     <ImageButton
         android:id="@+id/share_btn"
         android:layout_width="240dp"
         android:layout_height="50dp"
     android:src="@drawable/share"/>
+
+    <ImageButton
+        android:id="@+id/delete_btn"
+        android:layout_width="240dp"
+        android:layout_height="50dp"
+        android:src="@drawable/delete" />
+
 </LinearLayout>

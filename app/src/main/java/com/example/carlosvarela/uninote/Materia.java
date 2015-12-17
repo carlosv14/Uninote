@@ -16,11 +16,12 @@ import com.parse.ParseUser;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @ParseClassName("Materia")
-public class Materia extends ParseObject {
+public class Materia extends ParseObject implements Serializable {
 
     String objectId;
     String Materia;

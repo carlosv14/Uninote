@@ -17,4 +17,9 @@
         android:layout_width="240dp"
         android:layout_height="50dp"
         android:src="@drawable/share"/>
+    <ImageButton
+        android:id="@+id/audiodelete"
+        android:layout_width="240dp"
+        android:layout_height="50dp"
+        android:src="@drawable/delete"/>
 </LinearLayout>

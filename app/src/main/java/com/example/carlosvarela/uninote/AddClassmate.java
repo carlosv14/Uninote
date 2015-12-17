@@ -105,7 +105,7 @@ public class AddClassmate extends AppCompatActivity {
                     public void done(List<ParseObject> results, ParseException e) {
                         for (ParseObject a : results) {
                             ParseACL p = a.getACL();
-                            p.setReadAccess(user,true);
+                            p.setReadAccess(user, true);
                             a.setACL(p);
                             a.pinInBackground();
                             a.saveEventually();
@@ -114,7 +114,9 @@ public class AddClassmate extends AppCompatActivity {
 
                     }
                 });
-
+                Toast.makeText(getApplicationContext(),
+                        "Successfully shared", Toast.LENGTH_LONG)
+                        .show();
 
             }
         });
